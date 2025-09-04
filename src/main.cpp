@@ -84,6 +84,9 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     } else { // INSPECT mode
         if(key==GLFW_KEY_L){
             std::string fname; std::cout<<"Load .mod filename: "; std::cin>>fname;
+            if (fname.size() < 4 || fname.substr(fname.size() - 4) != ".mod") {
+                fname += ".mod";
+            }
             if(state.scene.load(fname)) std::cout<<"Loaded "<<fname<<"\n"; else std::cout<<"Load failed\n";
             return;
         }
@@ -153,7 +156,16 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 
     if(key==GLFW_KEY_S){
         std::string fname; std::cout<<"Save filename (.mod): "; std::cin>>fname;
-        if(state.scene.save(fname)) std::cout<<"Saved "<<fname<<"\n"; else std::cout<<"Save failed\n";
+        // if(state.scene.save("fname")) std::cout<<"Saved "<<fname<<"\n"; else std::cout<<"Save failed\n";
+         if (fname.size() < 4 || fname.substr(fname.size() - 4) != ".mod") {
+        fname += ".mod";
+    }
+
+    if (state.scene.save(fname)) {
+        std::cout << "Saved " << fname << "\n";
+    } else {
+        std::cout << "Save failed\n";
+    }
         return;
     }
 
