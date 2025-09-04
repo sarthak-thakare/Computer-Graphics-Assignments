@@ -1,4 +1,4 @@
-# Assignment 1 - Modelling (Submission Ready)
+# Assignment 1 - Modelling 
 
 ## Team
 - Sarthak Thakare - 23b0933
