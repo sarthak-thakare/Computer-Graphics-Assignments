@@ -1,4 +1,4 @@
-# Hierarchical Modeller — Submission-ready
+# Assignment 1 - Modelling (Submission Ready)
 
 ## Team
 - Sarthak Thakare - 23b0933
