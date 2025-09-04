@@ -110,7 +110,10 @@ bool model_t::load(const std::string &fname) {
         std::string type; int lev;
         std::string colorstr, trans, sc, rots;
 
-        ss >> type >> lev >> colorstr >> trans >> sc >> rots;
+        // ss >> type >> lev >> colorstr >> trans >> sc >> rots;
+        ss >> type >> lev >> colorstr >> trans >> sc;
+        std::getline(ss, rots);
+        rots.erase(0, rots.find_first_not_of(" \t"));
 
         // create shape
         std::unique_ptr<shape_t> s;
@@ -125,6 +128,18 @@ bool model_t::load(const std::string &fname) {
         float r=1,g=1,b=1,a=1;
         sscanf(colorstr.c_str(), "%f,%f,%f,%f", &r,&g,&b,&a);
         node->color = glm::vec4(r,g,b,a);
+
+        if(node->shape){
+            auto &cols = node->shape->colors;
+            for(auto &c : cols){
+                c = node->color;
+            }
+            glBindBuffer(GL_ARRAY_BUFFER, node->shape->vbo[1]);
+            glBufferSubData(GL_ARRAY_BUFFER, 0,
+                            cols.size() * sizeof(glm::vec4), cols.data());
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+        }
+
 
         // parse translate and scale
         float tx=0,ty=0,tz=0;

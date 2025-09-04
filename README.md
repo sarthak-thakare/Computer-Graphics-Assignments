@@ -42,7 +42,7 @@ make
 - T — Enter translate mode
 - G — Enter scale mode
 - X/Y/Z — Choose axis
-- Use '+' / '=' to Increase and '-' to Decrease
+- Use '+' to Increase and '-' to Decrease
 - C — Change color for current shape (prompts R G B)
 - S — Save model (.mod) (prompts filename)
 - L — Load model (.mod) (only in Inspect mode)
@@ -51,7 +51,7 @@ make
 ## .mod format
 Indented text representing hierarchy, each line:
 ```
-<shape_name> <tess_level> r,g,b,a tx,ty,tz sx,sy,sz
+<shape_name> <tess_level> r,g,b,a tx,ty,tz sx,sy,sz,(4x4 rotation matrix)
 ```
 Example included in `models/`.
 

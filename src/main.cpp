@@ -147,12 +147,32 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     }
 
     if(key==GLFW_KEY_C){
-        if(state.appMode==MODELLER && state.current){
-            float r,g,b; std::cout<<"Enter R G B (0..1): "; std::cin>>r>>g>>b;
-            state.current->color = glm::vec4(r,g,b,1.0f);
-        } else std::cout<<"No current shape selected\n";
-        return;
+    if(state.appMode==MODELLER && state.current){
+        float r,g,b; 
+        std::cout << "Enter R G B (0..1): "; 
+        std::cin >> r >> g >> b;
+
+        state.current->color = glm::vec4(r,g,b,1.0f);
+
+        // Update GPU color buffer immediately
+        if(state.current->shape){
+            auto &cols = state.current->shape->colors;
+            for(auto &c : cols){
+                c = glm::vec4(r,g,b,1.0f);
+            }
+            glBindBuffer(GL_ARRAY_BUFFER, state.current->shape->vbo[1]);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, 
+                            cols.size() * sizeof(glm::vec4), cols.data());
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+        }
+
+        glfwPostEmptyEvent(); // force redraw
+    } else {
+        std::cout<<"No current shape selected\n";
     }
+    return;
+}
+
 
     if(key==GLFW_KEY_S){
         std::string fname; std::cout<<"Save filename (.mod): "; std::cin>>fname;
@@ -200,7 +220,7 @@ int main(){
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         // compute view based on centroid
         glm::vec3 cent = state.scene.compute_centroid();
-        glm::vec3 campos = cent + glm::vec3(3.0f,2.0f,3.0f);
+        glm::vec3 campos = cent + glm::vec3(0.0f,0.0f,6.0f);
         glm::mat4 view = glm::lookAt(campos, cent, glm::vec3(0,1,0));
         glm::mat4 vp = proj * view;
         state.scene.draw(mvpLoc, vp);
