@@ -7,7 +7,15 @@
 ## Declaration
 We confirm the code is written by us. We consulted:
 - OpenGL/GLFW/GLEW docs and tutorials
-- ChatGPT for code structure suggestions
+- https://learnopengl.com/
+
+- Course Coding tutorials
+- https://github.com/paragchaudhuri/cs475-tutorials
+
+- OpenGl video tutorials
+- https://www.youtube.com/watch?v=45MIykWJ-C4
+
+- Google Gemini — used as an aid for debugging suggestions and generating small boilerplate snippets
 
 ## Build
 Requires: g++, GLFW3, GLEW, glm, pkg-config
